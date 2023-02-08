@@ -93,7 +93,7 @@ class Graph {
     /**
      * Runs dijkstra using a specified source vertex
      */
-    public void dijkstra(String startName) {
+    public void dijkstra(String startName, String endName) {
         
         if (!graph.containsKey(startName)) {
             System.err.printf(
@@ -114,23 +114,33 @@ class Graph {
             q.add(v);
         }
 
-        dijkstra(q);
+        dijkstra(q, endName);
     }
 
     /**
      * Implementation of dijkstra's algorithm using a binary heap.
      */
-    private void dijkstra(final NavigableSet<Vertex> q) {
+    private void dijkstra(final NavigableSet<Vertex> q, String endName) {
         
         Vertex u, v;
+        int minDist = Integer.MAX_VALUE;
         
         while (!q.isEmpty()) {
             
             // vertex with shortest distance (first iteration will return source)
             u = q.pollFirst();
-            
+
             if (u.dist == Integer.MAX_VALUE) {
                 break; // we can ignore u (and any other remaining vertices) since they are unreachable
+            }
+
+            if (u.name.equals(endName)) {
+                minDist = u.dist;
+                continue;
+            }
+
+            if (u.dist > minDist) {
+                break;
             }
             
             // look at distances to each neighbour
@@ -148,6 +158,8 @@ class Graph {
                 }
             }
         }
+
+        printPath(endName);
     }
 
     /**
@@ -177,8 +189,7 @@ class Dijkstra {
      */
     public static void main(String[] args) {
         Graph g = new Graph(GRAPH);
-        g.dijkstra(START);
-        g.printPath(END);
+        g.dijkstra(START, END);
     }
 
     private static final Graph.Edge[] GRAPH = {
