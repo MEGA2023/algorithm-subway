@@ -69,6 +69,7 @@ class Graph {
      * Builds a graph from a set of edges
      */
     public Graph(Edge[] edges) {
+        
         graph = new HashMap<>(edges.length);
 
         // one pass to find all vertices
@@ -93,6 +94,7 @@ class Graph {
      * Runs dijkstra using a specified source vertex
      */
     public void dijkstra(String startName) {
+        
         if (!graph.containsKey(startName)) {
             System.err.printf(
                     "Graph doesn't contain start vertex \"%s\"%n",
@@ -100,7 +102,9 @@ class Graph {
             );
             return;
         }
+        
         final Vertex source = graph.get(startName);
+        
         NavigableSet<Vertex> q = new TreeSet<>();
 
         // set-up vertices
@@ -117,18 +121,25 @@ class Graph {
      * Implementation of dijkstra's algorithm using a binary heap.
      */
     private void dijkstra(final NavigableSet<Vertex> q) {
+        
         Vertex u, v;
+        
         while (!q.isEmpty()) {
+            
             // vertex with shortest distance (first iteration will return source)
             u = q.pollFirst();
+            
             if (u.dist == Integer.MAX_VALUE) {
                 break; // we can ignore u (and any other remaining vertices) since they are unreachable
             }
+            
             // look at distances to each neighbour
             for (Map.Entry<Vertex, Integer> a : u.neighbours.entrySet()) {
+                
                 v = a.getKey(); // the neighbour in this iteration
 
                 final int alternateDist = u.dist + a.getValue();
+                
                 if (alternateDist < v.dist) { // shorter path to neighbour found
                     q.remove(v);
                     v.dist = alternateDist;
@@ -150,7 +161,7 @@ class Graph {
             );
             return;
         }
-
+        
         graph.get(endName).printPath();
         System.out.println();
     }
@@ -162,20 +173,15 @@ class Dijkstra {
     private static final String END = "남동구청";
 
     /**
-     * main function Will run the code with "GRAPH" that was defined above.
+     * main function Will run the code with "GRAPH" that was defined below.
      */
     public static void main(String[] args) {
         Graph g = new Graph(GRAPH);
         g.dijkstra(START);
         g.printPath(END);
-        // g.printAllPaths();
     }
 
     private static final Graph.Edge[] GRAPH = {
-            // Distance from node "a" to node "b" is 7.
-            // In the current Graph there is no way to move the other way (e,g, from "b" to "a"),
-            // a new edge would be needed for that
-
             new Graph.Edge("소요산", "동두천", 1),
             new Graph.Edge("동두천", "보산", 1),
             new Graph.Edge("보산", "동두천중앙", 1),
