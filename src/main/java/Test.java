@@ -204,7 +204,7 @@ class Dijkstra {
                 g.dijkstra(startName, endName);
             }
             long endTime = System.nanoTime();
-            System.out.println("실행시간 : " + (endTime - startTime) / 1000000000.0 + " 초");
+            System.out.println("실행 시간 : " + (endTime - startTime) / 1000000000.0 + " 초");
             time[j] = endTime - startTime;
         }
         long sum = 0;
@@ -212,7 +212,7 @@ class Dijkstra {
             sum += time[i];
         }
         average = (float) sum / 10;
-        System.out.println("평균 실행시간 : " + sum / 1000000000.0 + " 초");
+        System.out.println("총 실행 시간 : " + sum / 1000000000.0 + " 초");
     }
 
     private static final Graph.Edge[] GRAPH = {
